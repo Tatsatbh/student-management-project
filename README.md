@@ -14,3 +14,8 @@ Student Management Project FULL CRUD  - Java (Spring Boot 3, Spring Data JPA, Hi
 - Duplicate e-mail values not permitted
   
 ------------Pairs with a mySQL database-------------------
+
+------------Authorization and Authentication Implemented-------------------
+- User Can Register
+- User Can Login
+
