@@ -1,10 +1,14 @@
 package com.management.studentmanagement.controller;
 
 import com.management.studentmanagement.dto.StudentDto;
+import com.management.studentmanagement.dto.UserDto;
 import com.management.studentmanagement.entity.Student;
 import com.management.studentmanagement.mapper.StudentMapper;
 import com.management.studentmanagement.service.StudentService;
+import com.management.studentmanagement.service.UserService;
+import jakarta.validation.Valid;
 import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +21,21 @@ import java.util.Objects;
 
 @Controller
 public class StudentController {
-    private StudentService studentService;
 
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+
+
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private UserService userService;
+
+//    public StudentController(StudentService studentService) {
+//        this.studentService = studentService;
+//    }
+
+    @GetMapping("/")
+    public String index(){
+        return "redirect:/login";
     }
 
     @GetMapping({"/students"})
@@ -87,7 +102,32 @@ public class StudentController {
         model.addAttribute("show",dto);
         return "view";
     }
+    @GetMapping("/register")
+    public String returnHome(Model model){
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+         return "register";
+    }
+    @PostMapping("/register/save")
+    public String registerUser(@Valid @ModelAttribute("user") UserDto dto, BindingResult result, Model model)
+    {
+        String email = dto.getEmail();
+        boolean emailExists = userService.ifUserEmailExists(email);
 
+        if (emailExists) {
+            result.rejectValue("email", null,
+                    "An account with this email address already exists");
+        }
+        if (result.hasErrors()){
+            model.addAttribute("user", dto);
+            return "/register";
+        }
 
-
+        userService.saveUser(dto);
+        return "redirect:/login";
+    }
+    @GetMapping("/login")
+    public String loginUser(){
+        return "login";
+    }
 }

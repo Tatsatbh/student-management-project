@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-xmlns:th="http://www.thymeleaf.org">
+xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Student Management System</title>
@@ -16,8 +17,9 @@ xmlns:th="http://www.thymeleaf.org">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/students/new}">Create New Student</a>
+                    <a class="nav-link active btn btn-primary" style="color:white;" aria-current="page" th:href="@{/logout}">Logout</a>
                 </li>
+            </ul>
             </ul>
         </div>
     </div>
@@ -44,10 +46,11 @@ xmlns:th="http://www.thymeleaf.org">
             <td th:text="${student.lname}"></td>
             <td th:text="${student.email}"></td>
             <td>
-                <a class ="btn btn-primary" th:href="@{/students/new}">+</a>
+                <a class ="btn btn-primary"th:href="@{/students/new}">+</a>
                 <a class ="btn btn-primary" th:href="@{/students/{studentId}/edit(studentId=${student.id})}">Edit</a>
                 <a class ="btn btn-danger" th:href="@{/students/{studentId}/delete(studentId=${student.id})}">Delete</a>
-                <a class ="btn btn-primary" th:href="@{/students/{studentId}/view(studentId=${student.id})}">View</a>
+                <a class ="btn btn-primary"
+                   th:href="@{/students/{studentId}/view(studentId=${student.id})}">View</a>
             </td>
         </tr>
         </tbody>
